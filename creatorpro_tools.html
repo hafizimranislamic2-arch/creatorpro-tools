@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Free creator tools for YouTube, TikTok and Instagram: title ideas, descriptions, hashtags, keywords and captions.">
+<title>CreatorPro Tools — Free Tools for Creators</title>
+<style>
+:root{--ink:#172033;--muted:#657089;--blue:#315efb;--bg:#f5f7fc;--line:#e5e9f2}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
+header{background:linear-gradient(120deg,#172b70,#315efb);color:white;padding:28px 18px 34px;text-align:center}
+header h1{font-size:clamp(27px,6vw,42px);margin:0 0 8px}header p{margin:0;color:#e5eaff}
+main{max-width:980px;margin:22px auto;padding:0 14px}.intro{background:white;border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card{background:white;border:1px solid var(--line);border-radius:15px;padding:17px;box-shadow:0 5px 18px #1a2c5510}
+.card h2{font-size:18px;margin:0 0 5px}.card p{color:var(--muted);font-size:13px;margin:0 0 12px}
+label{display:block;font-size:13px;font-weight:bold;margin:10px 0 5px}
+input,textarea,select{width:100%;padding:11px;border:1px solid #ccd4e4;border-radius:9px;font:inherit;background:#fff}
+textarea{min-height:80px;resize:vertical}
+button{border:0;background:var(--blue);color:white;padding:10px 14px;border-radius:9px;font-weight:bold;cursor:pointer;margin-top:10px}
+button.secondary{background:#eaf0ff;color:#2148cf;margin-left:6px}
+.output{white-space:pre-wrap;background:#f4f6fb;border:1px solid var(--line);border-radius:9px;padding:11px;margin-top:10px;min-height:42px;font-size:14px;overflow-wrap:anywhere}
+footer{text-align:center;color:var(--muted);padding:28px 12px;font-size:13px}
+.small{font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+<h1>CreatorPro Tools</h1>
+<p>Free Tools for Every Content Creator</p>
+</header>
+<main>
+<section class="intro">
+<strong>Welcome!</strong>
+<p>Use these simple free tools to plan better content for YouTube, TikTok and Instagram. Enter your topic and get ideas you can edit before publishing.</p>
+</section>
+<div class="grid">
+<section class="card">
+<h2>YouTube Title Generator</h2><p>Create title ideas for your next video.</p>
+<label for="topic">Video topic</label><input id="topic" placeholder="e.g. 5 funny cat moments">
+<label for="audience">Audience (optional)</label><input id="audience" placeholder="e.g. cat lovers">
+<button onclick="titles()">Generate titles</button><div id="titleOut" class="output" aria-live="polite">Your title ideas will appear here.</div><button class="secondary" onclick="copyOut('titleOut')">Copy</button>
+</section>
+<section class="card">
+<h2>YouTube Description Helper</h2><p>Build a simple description draft.</p>
+<label for="dtopic">Video topic</label><input id="dtopic" placeholder="Enter your video topic">
+<label for="details">What happens in the video?</label><textarea id="details" placeholder="Briefly describe your video"></textarea>
+<button onclick="description()">Create description</button><div id="descOut" class="output" aria-live="polite">Your description will appear here.</div><button class="secondary" onclick="copyOut('descOut')">Copy</button>
+</section>
+<section class="card">
+<h2>Hashtag Generator</h2><p>Generate relevant hashtag ideas. Check each tag before use.</p>
+<label for="htag">Topic or niche</label><input id="htag" placeholder="e.g. funny cats">
+<label for="platform">Platform</label><select id="platform"><option>YouTube</option><option>TikTok</option><option>Instagram</option></select>
+<button onclick="hashtags()">Generate hashtags</button><div id="hashOut" class="output" aria-live="polite">Your hashtags will appear here.</div><button class="secondary" onclick="copyOut('hashOut')">Copy</button>
+</section>
+<section class="card">
+<h2>Keyword Ideas</h2><p>Turn a topic into searchable phrase ideas.</p>
+<label for="keytopic">Main topic</label><input id="keytopic" placeholder="e.g. beginner photography">
+<button onclick="keywords()">Generate keywords</button><div id="keyOut" class="output" aria-live="polite">Your keyword ideas will appear here.</div><button class="secondary" onclick="copyOut('keyOut')">Copy</button>
+</section>
+<section class="card">
+<h2>Social Caption Helper</h2><p>Draft a short caption for a social post.</p>
+<label for="ctopic">Post topic</label><input id="ctopic" placeholder="What is your post about?">
+<label for="tone">Tone</label><select id="tone"><option>Friendly</option><option>Funny</option><option>Educational</option><option>Exciting</option></select>
+<button onclick="caption()">Create caption</button><div id="capOut" class="output" aria-live="polite">Your caption will appear here.</div><button class="secondary" onclick="copyOut('capOut')">Copy</button>
+</section>
+<section class="card">
+<h2>YouTube Tags Helper</h2><p>Create comma-separated tag suggestions.</p>
+<label for="tagtopic">Video topic</label><input id="tagtopic" placeholder="e.g. easy home gardening">
+<button onclick="taglist()">Generate tags</button><div id="tagOut" class="output" aria-live="polite">Your tags will appear here.</div><button class="secondary" onclick="copyOut('tagOut')">Copy</button>
+</section>
+</div>
+<p class="small">These tools generate editable suggestions, not guaranteed rankings or performance. Review all outputs for accuracy and relevance.</p>
+</main>
+<footer>© <span id="year"></span> CreatorPro Tools · Free tools for creators</footer>
+<script>
+const clean=id=>document.getElementById(id).value.trim();
+const put=(id,text)=>document.getElementById(id).textContent=text;
+function titles(){let t=clean('topic');if(!t){put('titleOut','Please enter a video topic.');return}let a=clean('audience');put('titleOut',[` ${t}: What You Need to Know`,`I Tried ${t} — Here’s What Happened`,`5 Things About ${t} You Should See`,`The Best of ${t} | A Quick Guide`,`${t} Explained in a Simple Way`,a?`${t} for ${a}`:`A Fresh Look at ${t}`].map((x,i)=>(i+1)+'. '+x.trim()).join('\n'))}
+function description(){let t=clean('dtopic'),d=clean('details');if(!t){put('descOut','Please enter a video topic.');return}put('descOut',`${t}\n\n${d||'In this video, we explore '+t+'.'}\n\nThanks for watching! If you found this video useful or entertaining, consider liking the video and subscribing for more.\n\n#${t.toLowerCase().replace(/[^a-z0-9]+/g,'').slice(0,24)} #shorts #newvideo`)}
+function hashtags(){let t=clean('htag');if(!t){put('hashOut','Please enter a topic.');return}let base=t.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);let topic=base.join('');let platform=clean('platform').toLowerCase();let tags=[topic,'contentcreator','newvideo','videooftheday','creatorcommunity'];if(platform==='youtube')tags.push('youtubeshorts','youtubecreator');if(platform==='tiktok')tags.push('tiktokcreator','fyp');if(platform==='instagram')tags.push('instagramreels','reels');put('hashOut',[...new Set(tags)].map(x=>'#'+x).join(' '))}
+function keywords(){let t=clean('keytopic');if(!t){put('keyOut','Please enter a main topic.');return}put('keyOut',[t,`${t} for beginners`,`how to ${t}`,`${t} tips`,`best ${t}`,`${t} ideas`,`easy ${t} guide`,`learn ${t}`].join('\n'))}
+function caption(){let t=clean('ctopic');if(!t){put('capOut','Please enter a post topic.');return}let tone=clean('tone');let starts={Friendly:'Here’s something worth sharing:',Funny:'A little fun with:',Educational:'Let’s learn something about:',Exciting:'You don’t want to miss this:'};put('capOut',`${starts[tone]} ${t}!\n\nWhat do you think? Share your thoughts below.`)}
+function taglist(){let t=clean('tagtopic');if(!t){put('tagOut','Please enter a video topic.');return}put('tagOut',[t,`${t} video`,`${t} tips`,`${t} guide`,`how to ${t}`,`${t} for beginners`,'new video','content creator'].join(', '))}
+function copyOut(id){let text=document.getElementById(id).textContent;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(()=>alert('Copied!')).catch(()=>alert('Please select and copy the text manually.'))}else{alert('Please select and copy the text manually.')}}
+document.getElementById('year').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
